@@ -1,4 +1,4 @@
-package utils 
+package fastByteArray 
 {
 	import flash.utils.ByteArray;
 	import avm2.intrinsics.memory.si32;

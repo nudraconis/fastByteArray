@@ -53,6 +53,7 @@ type = 'swc'
 
 flexUnit {
 	template = 'src/test/resources/FlexUnitRunner.as'
+	verbose = 'true'
 	additionalCompilerOptions = [
 		"-target-player=$TARGET_PLAYER",
 		'+configname=air'

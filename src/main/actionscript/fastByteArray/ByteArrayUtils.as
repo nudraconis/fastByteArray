@@ -1,7 +1,5 @@
-package utils 
+package fastByteArray 
 {
-	import ru.crazypanda.core.utils.MathUtils;
-	
 	public class ByteArrayUtils 
 	{
 		private static const LOG_2:Number = Math.log(2);
@@ -109,6 +107,9 @@ package utils
 		[Inline]
 		public static function calculateBits(value:uint):int
 		{
+			if (value == 0)
+				return 1;
+				
 			return Math.floor((Math.log(uint(value)) / LOG_2) + 1);
 		}
 		

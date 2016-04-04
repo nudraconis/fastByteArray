@@ -1,4 +1,4 @@
-package utils 
+package fastByteArray 
 {
 	import avm2.intrinsics.memory.li16;
 	import avm2.intrinsics.memory.li32;
@@ -6,10 +6,13 @@ package utils
 	import avm2.intrinsics.memory.si16;
 	import avm2.intrinsics.memory.si32;
 	import avm2.intrinsics.memory.si8;
+	import fastByteArray.BitsReader;
+	import fastByteArray.BitsWriter;
+	import fastByteArray.ByteArrayUtils;
+	import fastByteArray.Constants;
 	import flash.system.ApplicationDomain;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-	import ru.crazypanda.core.utils.MathUtils;
 	
 	public class FastByteArray  
 	{
@@ -22,7 +25,7 @@ package utils
 		public var bitsReader:BitsReader;
 		public var bitsWriter:BitsWriter;
 		
-		public function FastByteArray(byteArray:ByteArray, size:int = 1024) 
+		public function FastByteArray(byteArray:ByteArray = null, size:int = 1024) 
 		{
 			if (byteArray != null)
 			{
@@ -30,9 +33,9 @@ package utils
 			}
 			else
 			{
-				byteArray = new ByteArray();
-				byteArray.length = size;
-				byteArray.endian = Endian.LITTLE_ENDIAN;
+				this.byteArray = new ByteArray();
+				this.byteArray.length = size;
+				this.byteArray.endian = Endian.LITTLE_ENDIAN;
 			}
 			
 			bitsReader = new BitsReader(this);

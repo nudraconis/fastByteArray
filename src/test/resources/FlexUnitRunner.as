@@ -5,8 +5,6 @@ package
 	import org.flexunit.internals.TraceListener;
 	import org.flexunit.listeners.CIListener;
 	import org.flexunit.runner.FlexUnitCore;
-	import org.gradlefx.flexunitexample.TestSuite;
-	import swfDataExporter.SwfDataExporterTestSuite;
 	
 <% fullyQualifiedNames.each { %>
 	import $it;
