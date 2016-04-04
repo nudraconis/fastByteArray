@@ -1,0 +1,74 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+	dependencies {
+		classpath group: 'org.gradlefx', name: 'gradlefx', version: '1.3.3'
+		classpath 'de.undercouch:gradle-download-task:2.0.0'
+	}
+}
+
+apply plugin: 'gradlefx'
+apply plugin: 'de.undercouch.download'
+
+version = '1.0-SNAPSHOT'
+
+repositories {
+    maven {
+		name 'hamcrest-as3-repo'
+		url "https://repository.sonatype.org/content/groups/forge"
+	}
+	
+	mavenLocal()
+    mavenCentral()
+}
+
+//dependency versions
+ext.hamcrest_as3_version = '1.1.0'
+
+dependencies {
+    test   group: 'hamcrest-as3',   name: 'hamcrest-as3',    version: hamcrest_as3_version,    ext: 'swc'
+	
+	//test fileTree(dir: "libs/new", include: '*.swc')
+	//test fileTree(dir: "libs/new", include: '*.jar')
+			   
+	//test files( project.file('libs/new/flexUnitTasks-4.2.0-20140410.jar').absolutePath,
+	//			project.file('libs/new/flexUnitTasks-4.2.0-20140410-javadoc.jar').absolutePath,
+	//			project.file('libs/new/flexUnitTasks-4.2.0-20140410-sources.jar').absolutePath,
+	//			project.file('libs/new/flexunit-4.2.0-20140410-as3_4.12.0.swc').absolutePath,
+	//			project.file('libs/new/flexunit-aircilistener-4.2.0-20140410-4.12.0.swc').absolutePath,
+	//			project.file('libs/new/flexunit-flexcoverlistener-4.2.0-20140410-4.12.0.swc').absolutePath,
+	//			project.file('libs/new/fluint-extensions-4.2.0-20140410-4.12.0.swc').absolutePath,
+	//			project.file('libs/new/flexunit-cilistener-4.2.0-20140410-4.12.0.swc').absolutePath
+	//		  )
+	
+	test fileTree(dir: "$LIB_FLEXUNIT/flexunit", include: '*.swc')
+    test fileTree(dir: "$LIB_FLEXUNIT/flexunit", include: '*.jar')
+}
+
+flexHome = FLEX_HOME
+frameworkLinkage = 'none'
+type = 'swc'
+
+flexUnit {
+	template = 'src/test/resources/FlexUnitRunner.as'
+	additionalCompilerOptions = [
+		"-target-player=$TARGET_PLAYER",
+		'+configname=air'
+	]
+}
+
+task downloadFlexUnit(type: de.undercouch.gradle.tasks.download.Download) {
+    src URL_FLEXUNIT
+    dest new java.io.File(TMP_DIR, "flexunit.zip")
+}
+task downloadAndUnzipFlexUnit(type: Copy) {
+    if (!file("$LIB_FLEXUNIT/flexunit").exists()) {
+        dependsOn downloadFlexUnit
+        from zipTree(downloadFlexUnit.dest)
+        into LIB_FLEXUNIT
+    }
+}
+test.dependsOn downloadAndUnzipFlexUnit
+
