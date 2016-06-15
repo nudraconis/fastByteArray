@@ -5,10 +5,10 @@ package fastByteArray
 	
 	public class BitsWriter 
 	{
-		private var currentBuffer:int = 0;
-		private var bitsInBuffer:int = 0;
+		public var currentBuffer:int = 0;
+		public var bitsInBuffer:int = 0;
 		
-		private var byteArray:FastByteArray;
+		public var byteArray:FastByteArray;
 		
 		public function BitsWriter(byteArray:FastByteArray) 
 		{
@@ -58,6 +58,7 @@ package fastByteArray
 				//writeBits32Inline(currentBuffer);
 				
 				bitsInBuffer = 0;
+				currentBuffer = 0;
 			}
 		}
 		

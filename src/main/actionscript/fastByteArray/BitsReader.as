@@ -5,15 +5,15 @@ package fastByteArray
 	
 	public class BitsReader 
 	{
-		private var byteArray:FastByteArray;
+		public var byteArray:FastByteArray;
 		
-		private var position:int = 0;
+		public var position:int = 0;
 		
-		private var bitsInBuffer:int = 0;
-		private var curentBuffer:int = 0;
+		public var bitsInBuffer:int = 0;
+		public var curentBuffer:int = 0;
 		
-		private var restBuffer:int = 0;
-		private var bitsInRestBuffer:int = 0;
+		public var restBuffer:int = 0;
+		public var bitsInRestBuffer:int = 0;
 		
 		public function BitsReader(byteArray:FastByteArray) 
 		{
@@ -94,8 +94,12 @@ package fastByteArray
 		public final function clear():void 
 		{
 			position = 0;
+			
 			bitsInBuffer = 0;
 			curentBuffer = 0;
+			
+			restBuffer = 0
+			bitsInRestBuffer = 0;
 		}
 	}
 }

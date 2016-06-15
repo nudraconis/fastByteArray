@@ -27,6 +27,8 @@ package fastByteArray
 		
 		public static function calculateMaxBits(signed:Boolean, a:int, b:int):int 
 		{
+			
+			
 			var i:int = 0;
 			var bitMask:int = 0;
 			var valueMax:int = int.MIN_VALUE;

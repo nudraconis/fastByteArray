@@ -1,10 +1,10 @@
 package 
 {
+	import fastByteArray.FastByteArrayTest;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import org.flexunit.internals.TraceListener;
 	import org.flexunit.runner.FlexUnitCore;
-	import fastByteArray.FastByteArrayTest;
 
 	public class TestRunner extends Sprite
 	{
@@ -12,6 +12,7 @@ package
 		
 		public function TestRunner() 
 		{
+			
 			core = new FlexUnitCore();
 			
 			if (stage)

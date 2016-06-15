@@ -44,6 +44,41 @@ package fastByteArray
 			currentDomain = ApplicationDomain.currentDomain;
 		}
 		
+		public function clear(size:int = 1024):void
+		{
+			if (this.byteArray)
+				this.byteArray.clear();
+				
+			//this.byteArray = new ByteArray();
+			this.byteArray.length = size;
+			this.byteArray.endian = Endian.LITTLE_ENDIAN;
+		}
+		
+		public function setByteArray(byteArray:ByteArray):void
+		{
+			end(true);
+			
+			this.byteArray = byteArray;
+			
+			if (this.byteArray.length < ApplicationDomain.MIN_DOMAIN_MEMORY_LENGTH)
+				this.byteArray.length = ApplicationDomain.MIN_DOMAIN_MEMORY_LENGTH;
+				
+			this.byteArray.endian = Endian.LITTLE_ENDIAN;
+			_position = 0;
+		}
+		
+		[Inline]
+		public final function get length():int 
+		{
+			return byteArray.length;
+		}
+		
+		[Inline]
+		public final function set length(value:int):void 
+		{
+			byteArray.length = value;
+		}
+		
 		
 		[Inline]
 		public final function get position():int 
@@ -73,12 +108,32 @@ package fastByteArray
 		}
 		
 		[Inline]
+		public final function writeUTF(value:String):void
+		{
+			bitsWriter.end();
+			
+			byteArray.position = _position;
+			byteArray.writeUTF(value);
+			_position = byteArray.position;
+		}
+		
+		[Inline]
+		public final function readUTF():String
+		{
+			bitsReader.clear();
+			
+			byteArray.position = _position;
+			var value:String = byteArray.readUTF();
+			_position = byteArray.position;
+			
+			return value;
+		}
+		
+		[Inline]
 		public final function writeBitsToBytes(value:int):void
 		{
 			si32(value, _position);
 			_position += ByteArrayUtils.clampBitsToMaxBytes(value);
-				
-			//position += Math.floor(calculateBits/8);
 		}
 		
 		[Inline]
@@ -131,6 +186,10 @@ package fastByteArray
 		public final function readInt16():int
 		{
 			var value:int = li16(_position);
+			
+			if (value > 32767) //remove additional code
+				value = ((value / 2) - 32768) * 2;
+			
 			_position += 2;
 			
 			return value;
@@ -151,5 +210,20 @@ package fastByteArray
 			
 			return value;
 		}	
+		
+		[Inline]
+		public final function writeBytes(input:ByteArray, offset:Number, length:uint):void 
+		{
+			byteArray.position = _position;
+			byteArray.writeBytes(input, offset, length);
+			_position = byteArray.position;
+		}
+		
+		public function readBytes(output:ByteArray, offset:Number, length:int):void 
+		{
+			byteArray.position = _position;
+			byteArray.readBytes(output, offset, length);
+			_position = byteArray.position;
+		}
 	}
 }

@@ -26,6 +26,67 @@ package fastByteArray
 		}
 		
 		[Test]
+		public function mixedUtfReadWithBitsTest():void
+		{
+			byteArray.begin();
+			
+			var utfValue:String = "test utf value";
+			var intValue:int = 56;
+			var intValue2:int = 44;
+			
+			byteArray.writeBits(intValue, 6);
+			byteArray.writeUTF(utfValue);
+			byteArray.writeBits(intValue2, 6);
+			byteArray.end(false);
+			
+			byteArray.position = 0;
+			
+			Assert.assertEquals("int value is not equals", intValue, byteArray.readBits(6));
+			Assert.assertEquals("UTF value is not equals", utfValue, byteArray.readUTF());
+			Assert.assertEquals("int value 2 is not equals", intValue2, byteArray.readBits(6));
+			
+			byteArray.end(true);
+		}
+		
+		[Test]
+		public function mixedUtfReadWithByteTest():void
+		{
+			byteArray.begin();
+			
+			var utfValue:String = "test utf value";
+			var intValue:int = 56;
+			var intValue2:int = 44;
+			
+			byteArray.writeInt8(intValue);
+			byteArray.writeUTF(utfValue);
+			byteArray.writeInt8(intValue2);
+			
+			byteArray.position = 0;
+			
+			Assert.assertEquals("int value is not equals", intValue, byteArray.readInt8());
+			Assert.assertEquals("UTF value is not equals", utfValue, byteArray.readUTF());
+			Assert.assertEquals("int value 2 is not equals", intValue2, byteArray.readInt8());
+			
+			byteArray.end(true);
+		}
+		
+		[Test]
+		public function readWriteUTFTest():void
+		{
+			byteArray.begin();
+			
+			var utfValue:String = "test utf value";
+			
+			byteArray.writeUTF(utfValue);
+			
+			byteArray.position = 0;
+			
+			Assert.assertEquals("UTF value is not equals", utfValue, byteArray.readUTF());
+			
+			byteArray.end(true);
+		}
+		
+		[Test]
 		public function setPositionTest():void
 		{
 			byteArray.begin();
@@ -169,6 +230,31 @@ package fastByteArray
 			byteArray.end(true);
 		}
 		
+		[Test]
+		public function readWriteNegativeBitsTest():void
+		{
+			byteArray.begin();
+			
+			trace(ByteArrayUtils.calculateBits( -50));
+			trace("TTTTTT", ( -50).toString(2), uint( -50).toString(2), uint( -50));
+			var value:int = -50;
+			for (var i:int = 0; i < 100; i++)
+			{
+				byteArray.writeBits(value + i, 32);
+			}
+			1001110
+			byteArray.end(false);
+			
+			byteArray.position = 0;
+			
+			for (var j:int = 0; j < 100; j++)
+			{
+				var readValue:int = byteArray.readBits(32);
+				Assert.assertEquals("int8 value testing fail at: " + j, value + j, readValue); 
+			}
+			
+			byteArray.end(true);
+		}
 		
 		[Test]
 		public function readInt8Test():void
@@ -188,6 +274,31 @@ package fastByteArray
 			{
 				var value:int = byteArray.readInt8();
 				Assert.assertEquals("int8 value testing fail at: " + j, j, value); 
+			}
+			
+			byteArray.end(true);
+		}
+		
+		[Test]
+		public function readNegativeInt16Test():void
+		{
+			byteArray.begin();
+			
+			var value:int = -50;
+			for (var i:int = 0; i < 100; i++)
+			{
+				byteArray.writeInt16(value + i);
+			}
+			
+			byteArray.end(false);
+			
+			byteArray.position = 0;
+			
+			for (var j:int = 0; j < 100; j++)
+			{
+				var readValue:int = byteArray.readInt16();
+				
+				Assert.assertEquals("negativeInt16 value testing fail at: " + j, value + j, readValue); 
 			}
 			
 			byteArray.end(true);

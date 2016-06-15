@@ -51,6 +51,11 @@ flexHome = FLEX_HOME
 frameworkLinkage = 'none'
 type = 'swc'
 
+additionalCompilerOptions = [
+		"-target-player=$TARGET_PLAYER",
+		"-inline=true"
+	]
+
 flexUnit {
 	template = 'src/test/resources/FlexUnitRunner.as'
 	verbose = 'true'
