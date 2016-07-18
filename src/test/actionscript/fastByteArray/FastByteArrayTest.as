@@ -15,7 +15,7 @@ package fastByteArray
 		[Before]
 		public function setUp():void
 		{
-			byteArray = new FastByteArray(null, 8000);
+			byteArray = new FastByteArray(null, 8001);
 		}
 		
 		[After]
@@ -120,7 +120,7 @@ package fastByteArray
 		{
 			byteArray.begin();
 			
-			byteArray.position = 8000;
+			byteArray.position = 8001;
 			
 			byteArray.writeInt8(1);
 		}
@@ -131,11 +131,11 @@ package fastByteArray
 			byteArray.begin();
 			
 			/**
-			 * we have 8000 bytes so if we write more then 8000 bytes
+			 * we have 8001 bytes so if we write more then 8001 bytes
 			 * we should catch an exception
 			 */
 			
-			for (var i:int = 0; i < 8001; i++)
+			for (var i:int = 0; i < 8002; i++)
 			{
 				byteArray.writeInt8(1);
 			}
