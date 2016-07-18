@@ -135,7 +135,7 @@ package fastByteArray
 			 * we should catch an exception
 			 */
 			
-			for (var i:int = 0; i < 8002; i++)
+			for (var i:int = 0; i < 7000; i++)
 			{
 				byteArray.writeInt8(1);
 			}
