@@ -8,9 +8,9 @@ package fastByteArray
 		public var currentBuffer:int = 0;
 		public var bitsInBuffer:int = 0;
 		
-		public var byteArray:FastByteArray;
+		public var byteArray:IByteArray;
 		
-		public function BitsWriter(byteArray:FastByteArray) 
+		public function BitsWriter(byteArray:IByteArray) 
 		{
 			this.byteArray = byteArray;
 		}

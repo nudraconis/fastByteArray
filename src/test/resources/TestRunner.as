@@ -12,7 +12,6 @@ package
 		
 		public function TestRunner() 
 		{
-			
 			core = new FlexUnitCore();
 			
 			if (stage)

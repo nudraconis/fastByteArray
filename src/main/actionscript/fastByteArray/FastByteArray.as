@@ -14,7 +14,7 @@ package fastByteArray
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	
-	public class FastByteArray  
+	public class FastByteArray implements IByteArray
 	{
 		private var currentDomain:ApplicationDomain;
 		

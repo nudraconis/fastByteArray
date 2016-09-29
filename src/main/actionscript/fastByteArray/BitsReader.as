@@ -5,7 +5,7 @@ package fastByteArray
 	
 	public class BitsReader 
 	{
-		public var byteArray:FastByteArray;
+		public var byteArray:IByteArray;
 		
 		public var position:int = 0;
 		
@@ -15,7 +15,7 @@ package fastByteArray
 		public var restBuffer:int = 0;
 		public var bitsInRestBuffer:int = 0;
 		
-		public function BitsReader(byteArray:FastByteArray) 
+		public function BitsReader(byteArray:IByteArray) 
 		{
 			this.byteArray = byteArray;
 		}
