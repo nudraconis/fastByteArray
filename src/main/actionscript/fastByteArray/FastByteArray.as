@@ -18,24 +18,24 @@ package fastByteArray
 	{
 		private var currentDomain:ApplicationDomain;
 		
-		public var byteArray:ByteArray;
+		public var _byteArray:ByteArray;
 		
 		public var _position:int = 0;
 		
 		public var bitsReader:BitsReader;
 		public var bitsWriter:BitsWriter;
 		
-		public function FastByteArray(byteArray:ByteArray = null, size:int = 1024) 
+		public function FastByteArray(_byteArray:ByteArray = null, size:int = 1024) 
 		{
-			if (byteArray != null)
+			if (_byteArray != null)
 			{
-				this.byteArray = byteArray;
+				this._byteArray = _byteArray;
 			}
 			else
 			{
-				this.byteArray = new ByteArray();
-				this.byteArray.length = size;
-				this.byteArray.endian = Endian.LITTLE_ENDIAN;
+				this._byteArray = new ByteArray();
+				this._byteArray.length = size;
+				this._byteArray.endian = Endian.LITTLE_ENDIAN;
 			}
 			
 			bitsReader = new BitsReader(this);
@@ -46,37 +46,37 @@ package fastByteArray
 		
 		public function clear(size:int = 1024):void
 		{
-			if (this.byteArray)
-				this.byteArray.clear();
+			if (this._byteArray)
+				this._byteArray.clear();
 				
-			//this.byteArray = new ByteArray();
-			this.byteArray.length = size;
-			this.byteArray.endian = Endian.LITTLE_ENDIAN;
+			//this._byteArray = new ByteArray();
+			this._byteArray.length = size;
+			this._byteArray.endian = Endian.LITTLE_ENDIAN;
 		}
 		
-		public function setByteArray(byteArray:ByteArray):void
+		public function setByteArray(_byteArray:ByteArray):void
 		{
 			end(true);
 			
-			this.byteArray = byteArray;
+			this._byteArray = _byteArray;
 			
-			if (this.byteArray.length < ApplicationDomain.MIN_DOMAIN_MEMORY_LENGTH)
-				this.byteArray.length = ApplicationDomain.MIN_DOMAIN_MEMORY_LENGTH;
+			if (this._byteArray.length < ApplicationDomain.MIN_DOMAIN_MEMORY_LENGTH)
+				this._byteArray.length = ApplicationDomain.MIN_DOMAIN_MEMORY_LENGTH;
 				
-			this.byteArray.endian = Endian.LITTLE_ENDIAN;
+			this._byteArray.endian = Endian.LITTLE_ENDIAN;
 			_position = 0;
 		}
 		
 		[Inline]
 		public final function get length():int 
 		{
-			return byteArray.length;
+			return _byteArray.length;
 		}
 		
 		[Inline]
 		public final function set length(value:int):void 
 		{
-			byteArray.length = value;
+			_byteArray.length = value;
 		}
 		
 		
@@ -95,7 +95,7 @@ package fastByteArray
 		[Inline]
 		public final function begin():void
 		{
-			currentDomain.domainMemory = byteArray;
+			currentDomain.domainMemory = _byteArray;
 		}
 		
 		[Inline]
@@ -112,9 +112,9 @@ package fastByteArray
 		{
 			bitsWriter.end();
 			
-			byteArray.position = _position;
-			byteArray.writeUTF(value);
-			_position = byteArray.position;
+			_byteArray.position = _position;
+			_byteArray.writeUTF(value);
+			_position = _byteArray.position;
 		}
 		
 		[Inline]
@@ -122,9 +122,9 @@ package fastByteArray
 		{
 			bitsReader.clear();
 			
-			byteArray.position = _position;
-			var value:String = byteArray.readUTF();
-			_position = byteArray.position;
+			_byteArray.position = _position;
+			var value:String = _byteArray.readUTF();
+			_position = _byteArray.position;
 			
 			return value;
 		}
@@ -214,16 +214,21 @@ package fastByteArray
 		[Inline]
 		public final function writeBytes(input:ByteArray, offset:Number, length:uint):void 
 		{
-			byteArray.position = _position;
-			byteArray.writeBytes(input, offset, length);
-			_position = byteArray.position;
+			_byteArray.position = _position;
+			_byteArray.writeBytes(input, offset, length);
+			_position = _byteArray.position;
 		}
 		
 		public function readBytes(output:ByteArray, offset:Number, length:int):void 
 		{
-			byteArray.position = _position;
-			byteArray.readBytes(output, offset, length);
-			_position = byteArray.position;
+			_byteArray.position = _position;
+			_byteArray.readBytes(output, offset, length);
+			_position = _byteArray.position;
+		}
+		
+		public function get byteArray():ByteArray 
+		{
+			return _byteArray;
 		}
 	}
 }

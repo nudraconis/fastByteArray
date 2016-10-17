@@ -23,9 +23,9 @@ package fastByteArray
 		[Inline]
 		public final function readInt32Inline():int
 		{
-			var position:int = byteArray._position;
+			var position:int = byteArray.position;
 			var value:int = li32(position);
-			byteArray._position = position + 4;
+			byteArray.position = position + 4;
 			
 			return value;
 		}
@@ -41,9 +41,9 @@ package fastByteArray
 					bitsInRestBuffer = bitsInBuffer;
 					
 					//=======HAND INLINE readInt32========
-					var bytePosition:int = byteArray._position;
+					var bytePosition:int = byteArray.position;
 					curentBuffer = li32(bytePosition);
-					byteArray._position = bytePosition + 4;
+					byteArray.position = bytePosition + 4;
 					//=======HAND INLINE readInt32========
 					//curentBuffer = readInt32Inline();
 					
@@ -53,9 +53,9 @@ package fastByteArray
 				else 
 				{
 					//=======HAND INLINE readInt32========
-					var _bytePosition:int = byteArray._position;
+					var _bytePosition:int = byteArray.position;
 					curentBuffer = li32(_bytePosition);
-					byteArray._position = _bytePosition + 4;
+					byteArray.position = _bytePosition + 4;
 					//=======HAND INLINE readInt32========
 					//curentBuffer = readInt32Inline();
 					bitsInBuffer = 32//ByteArrayUtils.calculateBits(curentBuffer);

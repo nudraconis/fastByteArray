@@ -28,9 +28,9 @@ package fastByteArray
 			 * hand inline "technique" make about 60-80% 
 			 * perfomance improvment
 			 */
-			var position:int = byteArray._position;
+			var position:int = byteArray.position;
 			si32(value, position);
-			byteArray._position = position + 4;
+			byteArray.position = position + 4;
 		}
 		
 		[Inline]
@@ -51,9 +51,9 @@ package fastByteArray
 			if (bitsInBuffer != 0)
 			{
 				//========hand inline writeInt32=======
-				var position:int = byteArray._position;
+				var position:int = byteArray.position;
 				si32(currentBuffer, position);
-				byteArray._position = position + 4//ByteArrayUtils.clampBitsToMaxBytes(currentBuffer);
+				byteArray.position = position + 4//ByteArrayUtils.clampBitsToMaxBytes(currentBuffer);
 				//========hand inline writeInt32=======
 				//writeBits32Inline(currentBuffer);
 				
@@ -70,6 +70,8 @@ package fastByteArray
 		 */
 		public final function writeBits(value:int, bits:int):void
 		{
+			var position:int = 0;
+			
 			if (bitsInBuffer + bits > 32)
 			{
 				bitsInBuffer = 32 - bitsInBuffer;
@@ -77,9 +79,9 @@ package fastByteArray
 				currentBuffer = (value << 32 - bitsInBuffer) ^ currentBuffer;
 				
 				//========hand inline writeInt32=======
-				var position:int = byteArray._position;
+				position = byteArray.position;
 				si32(currentBuffer, position);
-				byteArray._position = position + 4;
+				byteArray.position = position + 4;
 				//========hand inline writeInt32=======
 				//writeBits32Inline(currentBuffer);
 				currentBuffer = value >>> bitsInBuffer;
@@ -94,9 +96,9 @@ package fastByteArray
 			if (bitsInBuffer == 32)
 			{
 				//========hand inline writeInt32=======
-				var _position:int = byteArray._position;
-				si32(currentBuffer, _position);
-				byteArray._position = _position + 4;
+				position = byteArray.position;
+				si32(currentBuffer, position);
+				byteArray.position = position + 4;
 				//========hand inline writeInt32=======
 				//writeBits32Inline(currentBuffer);
 				currentBuffer = 0;

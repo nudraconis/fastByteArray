@@ -130,7 +130,6 @@ package fastByteArray
 		public final function writeInt8(value:int):void
 		{
 			byteArray[_byteArray.position++] = value;
-			trace("POSE");
 		}
 		
 		[Inline]
